@@ -21,4 +21,17 @@ except Exception as e:
     print(f"Error occurred while reading the PDF file: {e}")
     exit(1)
 
-    
+
+writer = PdfWriter()
+for pager in reader.pages:
+    writer.add_page(pager)
+
+writer.encrypt(args.password)
+
+
+try:
+    with open(args.output_pdf, 'wb') as output_file:
+        writer.write(output_file)
+    print("✅ Encrypted PDF saved successfully!")
+except Exception as e:
+    print(f"❌ Failed to write output file: {e}")

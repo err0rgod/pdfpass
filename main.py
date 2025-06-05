@@ -8,3 +8,17 @@ parser.add_argument('outputpdf',help='path to the output PDF file')
 parser.add_argument('passwd',help='passwd to protect the PDF file')
 
 args = parser.parse_args()
+
+
+try :
+    reader = PdfReader(args.inputpdf)
+
+except FileNotFoundError:
+    print(f"Error: The file '{args.inputpdf}' does not exist.")
+    exit(1)
+
+except Exception as e:
+    print(f"Error occurred while reading the PDF file: {e}")
+    exit(1)
+
+    

@@ -81,3 +81,12 @@ def index():
             return redirect(request.url)
 
     return render_template("index.html")
+
+
+
+if __name__ == "__main__":
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        print("🔥 Server crashed with exception:")
+        traceback.print_exc()

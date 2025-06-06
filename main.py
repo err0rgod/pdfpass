@@ -2,6 +2,10 @@ import argparse   # for command line intraction
 from PyPDF2 import PdfReader, PdfWriter     #for reading and writing with pdf
 
 
+print("🔒 PDF Password Protection Tool 🔒 by err0rgod")
+print("This tool allows you to protect your PDF files with a password.")
+print("Please provide the required information to proceed.\n")
+
 
 #getting command line input from user
 parser = argparse.ArgumentParser(description='Protect PDF with password.')

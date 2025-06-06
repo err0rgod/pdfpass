@@ -30,7 +30,7 @@ writer.encrypt(args.passwd)
 
 
 try:
-    with open(args.output_pdf, 'wb') as output_file:
+    with open(args.outputpdf, 'wb') as output_file:
         writer.write(output_file)
     print("✅ Encrypted PDF saved successfully!")
 except Exception as e:

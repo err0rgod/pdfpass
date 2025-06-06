@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Password Protector</title>
+</head>
+<body>
+    <h2>Protect your PDF</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" enctype="multipart/form-data">
+        <label>Choose PDF File:</label><br>
+        <input type="file" name="pdf" accept=".pdf" required><br><br>
+        <label>Enter Password:</label><br>
+        <input type="text" name="password" required><br><br>
+        <button type="submit">Encrypt PDF</button>
+    </form>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for, flash
+from flask import Flask, render_template, request, send_file, redirect, url_for, flash, after_this_request
 from PyPDF2 import PdfReader, PdfWriter
 import os
 from werkzeug.utils import secure_filename
@@ -26,8 +26,11 @@ def allowed_file(filename):
 
 def cleanup_files(*paths):
     for path in paths:
-        if os.path.exists(path):
-            os.remove(path)
+        try:
+            if os.path.exists(path):
+                os.remove(path)
+        except Exception as e:
+            print(f"⚠️ Cleanup error: {e}")
 
 # === Routes ===
 @app.route("/", methods=["GET", "POST"])
@@ -64,12 +67,12 @@ def index():
                 with open(output_path, 'wb') as f:
                     writer.write(f)
 
-                response = send_file(output_path, as_attachment=True)
+                @after_this_request
+                def remove_files(response):
+                    cleanup_files(input_path, output_path)
+                    return response
 
-                # Cleanup after sending
-                cleanup_files(input_path, output_path)
-
-                return response
+                return send_file(output_path, as_attachment=True)
 
             except Exception as e:
                 flash(f"❌ Error: {e}")
@@ -83,10 +86,5 @@ def index():
     return render_template("index.html")
 
 
-
 if __name__ == "__main__":
-    try:
-        app.run(debug=True)
-    except Exception as e:
-        print("🔥 Server crashed with exception:")
-        traceback.print_exc()
+    app.run(debug=True)

@@ -35,3 +35,5 @@ try:
     print("✅ Encrypted PDF saved successfully!")
 except Exception as e:
     print(f"❌ Failed to write output file: {e}")
+
+

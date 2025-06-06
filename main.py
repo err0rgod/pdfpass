@@ -26,7 +26,7 @@ writer = PdfWriter()
 for pager in reader.pages:
     writer.add_page(pager)
 
-writer.encrypt(args.password)
+writer.encrypt(args.passwd)
 
 
 try:

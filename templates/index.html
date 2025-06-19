@@ -15,9 +15,13 @@
             <input class="form-control" type="file" name="pdf" id="pdf" required>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Set Password:</label>
-            <input class="form-control" type="password" name="password" id="password" required>
+          <label for="password" class="form-label">Set Password:</label>
+          <div class="input-group">
+            <input class="form-control" type="text" name="password" id="password" required>
+            <button type="button" class="btn btn-outline-secondary" onclick="generatePassword()">🔁 Generate</button>
+          </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Encrypt PDF</button>
     </form>
 </div>

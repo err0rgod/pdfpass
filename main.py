@@ -1,50 +1,49 @@
-import argparse   # for command line intraction
-from PyPDF2 import PdfReader, PdfWriter     #for reading and writing with pdf
+from flask import Flask, render_template, request, send_file, redirect, url_for
+from PyPDF2 import PdfReader, PdfWriter
+import os
+from werkzeug.utils import secure_filename
 
+app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+OUTPUT_FOLDER = "outputs"
 
-print("🔒 PDF Password Protection Tool 🔒 by err0rgod")
-print("This tool allows you to protect your PDF files with a password.")
-print("Please provide the required information to proceed.\n")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-#getting command line input from user
-parser = argparse.ArgumentParser(description='Protect PDF with password.')
-parser.add_argument('-i', '--inputpdf', help='path to the PDF file to protect')
-parser.add_argument('-o', '--outputpdf', help='path to the output PDF file')
-parser.add_argument('-p', '--passwd', help='passwd to protect the PDF file')
+@app.route('/encrypt', methods=['POST'])
+def encrypt_pdf():
+    if 'pdf' not in request.files or request.files['pdf'].filename == '':
+        return "❌ No PDF uploaded."
 
-args = parser.parse_args() 
+    file = request.files['pdf']
+    password = request.form.get('password')
+    if not password:
+        return "❌ Please enter a password."
 
-#checking for user provided input and doing some error handling
-#and opening and reading the pdf
-try :
-    reader = PdfReader(args.inputpdf)
+    filename = secure_filename(file.filename)
+    input_path = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(input_path)
 
-except FileNotFoundError:
-    print(f"Error: The file '{args.inputpdf}' does not exist.")
-    exit(1)
+    try:
+        reader = PdfReader(input_path)
+        writer = PdfWriter()
+        for page in reader.pages:
+            writer.add_page(page)
+        writer.encrypt(password)
 
-except Exception as e:
-    print(f"Error occurred while reading the PDF file: {e}")
-    exit(1)
+        output_filename = f"protected_{filename}"
+        output_path = os.path.join(OUTPUT_FOLDER, output_filename)
 
+        with open(output_path, 'wb') as f:
+            writer.write(f)
 
-#writing the pdf with new password with writer.encrypt 
+        return send_file(output_path, as_attachment=True)
+    except Exception as e:
+        return f"❌ Error: {str(e)}"
 
-writer = PdfWriter()
-for pager in reader.pages:
-    writer.add_page(pager)
-
-writer.encrypt(args.passwd)
-
-
-#firse error handling for wrriting part
-
-try:
-    with open(args.outputpdf, 'wb') as output_file:
-        writer.write(output_file)
-    print("✅ Encrypted PDF saved successfully!")
-except Exception as e:
-    print(f"❌ Failed to write output file: {e}")
-
-
+if __name__ == '__main__':
+    app.run(debug=True)

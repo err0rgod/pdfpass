@@ -4,7 +4,8 @@
 
 **PDFPass** is a simple tool to protect your PDF files with a password.  
 You can use it in two ways:
-- **Web Version:** Use a modern, neon-themed web interface to upload and protect your PDFs.
+- **Web Version:** Use a modern, neon-themed web interface to upload and protect your PDFs.  
+  _Includes a random password generator for convenience!_
 - **CLI Version:** Use the command line to quickly encrypt PDFs.
 
 ---
@@ -27,6 +28,12 @@ python web_app.py
 ```
 
 Then open [http://localhost:5000](http://localhost:5000) in your browser.
+
+**Features:**
+- Upload your PDF and set a password
+- Generate a strong random password with one click
+- Download your encrypted PDF instantly
+- Neon hacker-style dark theme
 
 ---
 
@@ -55,6 +62,7 @@ python main.py -i myfile.pdf -o myfile_protected.pdf -p secret123
 - 🖥️ Easy-to-use web interface
 - ⚡ Fast command-line encryption
 - 🟢 Neon hacker-style web design
+- 🔑 Random password generator (web version)
 
 ---
 
@@ -69,14 +77,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
----
-
-## License
-
-MIT License
 
 ---
 
-## Credits
-
-Made by
+## Made by err0rgod

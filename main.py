@@ -45,7 +45,7 @@ try:
         writer.write(output_file)
     print("✅ Encrypted PDF saved successfully!")
 except Exception as e:
-    print(f"❌ Failed to write output file: {e}")
+    print(f"❌ Failed to write output file: {e}") 
 
 
 

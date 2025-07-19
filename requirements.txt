@@ -1,3 +1,6 @@
 argparse
 PyPDF2
 gunicorn
+flask
+werkzeug.utils
+os
